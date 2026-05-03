@@ -2,6 +2,11 @@ chrome.runtime.onInstalled.addListener(() => {
   console.log('TabSweep extension installed');
 });
 
+// 点击扩展图标打开管理页面
+chrome.action.onClicked.addListener(() => {
+  chrome.tabs.create({ url: chrome.runtime.getURL('dist/index.html') });
+});
+
 // Update badge with tab count
 function updateBadge() {
   chrome.tabs.query({ currentWindow: true }, (tabs) => {

@@ -8,15 +8,16 @@
     "activeTab",
     "storage"
   ],
+  "action": {},
   "chrome_url_overrides": {
-    "newtab": "extension/dist/index.html"
+    "newtab": "dist/index.html"
   },
   "background": {
-    "service_worker": "extension/background.js"
+    "service_worker": "background.js"
   },
   "icons": {
-    "16": "extension/icons/icon16.png",
-    "48": "extension/icons/icon48.png",
-    "128": "extension/icons/icon128.png"
+    "16": "icons/icon16.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
   }
 }
