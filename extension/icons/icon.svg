@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/200/svg" viewBox="0 0 128 128" width="128" height="128">
+  <!-- Background -->
+  <rect width="128" height="128" rx="20" fill="#4CAF50"/>
+  
+  <!-- Tab shape 1 (being swept) -->
+  <rect x="20" y="30" width="50" height="35" rx="6" fill="#FF9800" opacity="0.8"/>
+  <polygon points="70,30 75,35 70,40" fill="#FF9800" opacity="0.8"/>
+  
+  <!-- Tab shape 2 (clean) -->
+  <rect x="50" y="50" width="50" height="35" rx="6" fill="#2196F3" opacity="0.8"/>
+  <polygon points="100,50 105,55 100,60" fill="#2196F3" opacity="0.8"/>
+  
+  <!-- Broom/sweep effect -->
+  <path d="M 85 65 L 95 75 L 105 65" stroke="white" stroke-width="4" fill="none" stroke-linecap="round"/>
+  <line x1="95" y1="75" x2="95" y2="95" stroke="white" stroke-width="4" stroke-linecap="round"/>
+  
+  <!-- Checkmark (cleaned) -->
+  <circle cx="35" cy="75" r="12" fill="#4CAF50"/>
+  <path d="M 30 75 L 33 78 L 40 71" stroke="white" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>

@@ -1,0 +1,22 @@
+{
+  "manifest_version": 3,
+  "name": "TabSweep",
+  "version": "1.0.0",
+  "description": "A beautiful Chrome extension to manage and clean your tabs",
+  "permissions": [
+    "tabs",
+    "activeTab",
+    "storage"
+  ],
+  "chrome_url_overrides": {
+    "newtab": "extension/dist/index.html"
+  },
+  "background": {
+    "service_worker": "extension/background.js"
+  },
+  "icons": {
+    "16": "extension/icons/icon16.png",
+    "48": "extension/icons/icon48.png",
+    "128": "extension/icons/icon128.png"
+  }
+}
