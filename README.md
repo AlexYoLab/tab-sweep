@@ -1,6 +1,6 @@
 # TabSweep - Chrome Tab Manager
 
-基于 [tab-out](https://github.com/zarazhangrui/tab-out) 设计的 Chrome 标签页清理插件，通过分组卡片界面帮助你高效管理和清理浏览器标签页。
+一个帮助你高效管理和清理浏览器标签页的 Chrome 扩展，通过分组卡片界面提供清晰的标签管理体验。
 
 ![TabSweep](extension/icons/icon128.png)
 
@@ -16,7 +16,7 @@
 
 🗑️ **一键全关** - 按分组一键关闭该域名下的所有标签页
 
-🎨 **瀑布流布局** - 仿 tab-out 的卡片瀑布流设计，视觉更清晰
+🎨 **瀑布流布局** - 卡片瀑布流设计，视觉更清晰
 
 🔒 **隐私优先** - 所有数据本地存储，无云端同步
 
@@ -84,7 +84,7 @@ npm run build  # 构建生产版本
 tab-manager-plugin/
 ├── src/
 │   ├── components/
-│   │   ├── GroupCard.vue    # 分组卡片组件（仿 tab-out）
+│   │   ├── GroupCard.vue    # 分组卡片组件
 │   │   ├── TabRow.vue       # 标签行组件
 │   │   ├── ViewToggle.vue   # 视图切换按钮
 │   │   └── ReadLater.vue    # 稍后阅读侧边栏
@@ -114,6 +114,4 @@ node generate-icons.js
 
 MIT License
 
-## 致谢
 
-设计灵感来自 [tab-out](https://github.com/zarazhangrui/tab-out)，感谢出色原始设计！

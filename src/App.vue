@@ -288,7 +288,7 @@ header {
   opacity: 0.85;
 }
 
-/* 分组卡片瀑布流（仿tab-out） */
+/* 分组卡片瀑布流 */
 .group-cards {
   columns: 280px;
   column-gap: 12px;
