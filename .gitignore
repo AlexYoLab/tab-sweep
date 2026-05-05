@@ -1,9 +1,8 @@
 # Dependencies
 node_modules/
 
-# Build output
-dist/
-extension/dist/
+# Build output (root level only)
+/dist/
 
 # Logs
 logs

@@ -256,19 +256,53 @@ export const useTabStore = defineStore('tabs', () => {
       const allTabs = await chrome.tabs.query({})
       tabs.value = Array.from(allTabs)
       
+      console.log('DEBUG fetchTabs: Before getting readLater from storage')
       const result = await chrome.storage.local.get('readLater')
-      console.log('DEBUG fetchTabs: readLater from storage:', result.readLater)
-      if (result.readLater && Array.isArray(result.readLater)) {
-        readLater.value = [...result.readLater]
-      } else if (result.readLater) {
-        readLater.value = Array.from(result.readLater)
+      console.log('DEBUG fetchTabs: Result from storage:', result)
+      console.log('DEBUG fetchTabs: readLater exists:', result && 'readLater' in result)
+      
+      if (result && 'readLater' in result) {
+        console.log('DEBUG fetchTabs: readLater value:', result.readLater)
+        console.log('DEBUG fetchTabs: readLater type:', typeof result.readLater)
+        console.log('DEBUG fetchTabs: readLater is array:', Array.isArray(result.readLater))
+        
+        if (Array.isArray(result.readLater)) {
+          readLater.value = [...result.readLater]
+          console.log('DEBUG fetchTabs: Loaded as array:', readLater.value.length, 'items')
+        } else if (typeof result.readLater === 'string') {
+          try {
+            readLater.value = JSON.parse(result.readLater)
+            console.log('DEBUG fetchTabs: Parsed from string:', readLater.value.length, 'items')
+          } catch (e) {
+            console.error('DEBUG fetchTabs: Failed to parse readLater string:', e)
+            readLater.value = []
+          }
+        } else if (typeof result.readLater === 'object' && result.readLater !== null) {
+          // 处理类数组对象（chrome.storage.local有时会将数组转换为对象）
+          const values = Object.values(result.readLater)
+          if (values.length > 0 && typeof values[0] === 'object') {
+            readLater.value = values
+            console.log('DEBUG fetchTabs: Converted from object to array:', readLater.value.length, 'items')
+          } else {
+            console.log('DEBUG fetchTabs: Object is not array-like, setting to empty array')
+            readLater.value = []
+          }
+        } else {
+          console.log('DEBUG fetchTabs: Unknown type, setting to empty array')
+          readLater.value = []
+        }
+      } else {
+        console.log('DEBUG fetchTabs: readLater not in storage, setting to empty array')
+        readLater.value = []
       }
-      console.log('DEBUG fetchTabs: readLater.value after loading:', readLater.value)
+      console.log('DEBUG fetchTabs: Final readLater.value:', readLater.value)
+      console.log('DEBUG fetchTabs: Final readLater.value length:', readLater.value.length)
       
       const currentWindow = await chrome.windows.getCurrent()
       currentWindowId.value = currentWindow.id
     } catch (error) {
       console.error('Error fetching tabs:', error)
+      readLater.value = []
     } finally {
       loading.value = false
     }

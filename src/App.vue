@@ -243,11 +243,10 @@ async function fixAllDupes() {
 * { margin: 0; padding: 0; box-sizing: border-box; }
 
 body {
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
   background: #f8f5f0;
   color: #1a1613;
   min-height: 100vh;
-  -webkit-font-smoothing: antialiased;
 }
 
 /* 弹窗遮罩 */
