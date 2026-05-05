@@ -1,5 +1,25 @@
 <template>
   <div id="tab-sweep">
+    <Transition name="modal">
+      <div v-if="showWelcomeModal" class="modal-overlay" @click.self="closeWelcomeModal">
+        <div class="modal-content">
+          <div class="modal-icon">👋</div>
+          <h2>欢迎使用 TabSweep</h2>
+          <p>TabSweep 可以帮助您更好地管理浏览器标签。</p>
+          <div class="modal-tip">
+            <strong>💡 请选择新建标签页的默认行为：</strong>
+          </div>
+          <div class="modal-buttons">
+            <button class="modal-btn modal-btn-primary" @click="closeWelcomeModal">使用 TabSweep（后续新建标签页均打开 TabSweep）</button>
+            <button class="modal-btn modal-btn-secondary" @click="useDefaultNewTab">使用浏览器默认主页（后续新建标签页均打开默认页面）</button>
+          </div>
+          <div class="modal-footer">
+            无论选择哪种方式，您都可以通过点击浏览器工具栏上的 TabSweep 图标来使用本插件。
+          </div>
+        </div>
+      </div>
+    </Transition>
+
     <header>
       <div class="header-left">
         <h1>TabSweep</h1>
@@ -100,6 +120,7 @@ const store = useTabStore()
 const groupedTabs = computed(() => store.groupedTabs)
 const tabCount = computed(() => store.tabCount)
 const loading = ref(true)
+const showWelcomeModal = ref(false)
 
 const viewMode = computed({
   get: () => store.viewMode,
@@ -125,7 +146,31 @@ const dupeCount = computed(() => {
 onMounted(async () => {
   await store.fetchTabs()
   loading.value = false
+  
+  chrome.storage.local.get('newTabChoiceMade', (result) => {
+    if (!result.newTabChoiceMade) {
+      showWelcomeModal.value = true
+    }
+  })
 })
+
+function closeWelcomeModal() {
+  showWelcomeModal.value = false
+  chrome.storage.local.set({ useDefaultNewTab: false, newTabChoiceMade: true })
+}
+
+function useDefaultNewTab() {
+  showWelcomeModal.value = false
+  chrome.storage.local.set({ useDefaultNewTab: true, newTabChoiceMade: true }, () => {
+    chrome.tabs.create({ url: 'chrome://newtab', active: true }, (newTab) => {
+      chrome.tabs.getCurrent((currentTab) => {
+        if (currentTab && currentTab.id && newTab && newTab.id !== currentTab.id) {
+          chrome.tabs.remove(currentTab.id)
+        }
+      })
+    })
+  })
+}
 
 function switchToTab(tabId, windowId) {
   store.switchToTab(tabId, windowId)
@@ -163,6 +208,9 @@ async function fixGroupDupes(group) {
 }
 
 async function fixAllDupes() {
+  const [currentTab] = await chrome.tabs.query({ active: true, currentWindow: true })
+  const currentTabId = currentTab?.id
+
   const allTabs = store.tabs
   const seen = new Map()
 
@@ -182,8 +230,10 @@ async function fixAllDupes() {
     }
   })
 
-  if (idsToClose.length > 0) {
-    await chrome.tabs.remove(idsToClose)
+  const filteredIds = idsToClose.filter(id => id !== currentTabId)
+
+  if (filteredIds.length > 0) {
+    await chrome.tabs.remove(filteredIds)
     await store.fetchTabs()
   }
 }
@@ -198,6 +248,117 @@ body {
   color: #1a1613;
   min-height: 100vh;
   -webkit-font-smoothing: antialiased;
+}
+
+/* 弹窗遮罩 */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.modal-content {
+  background: white;
+  border-radius: 16px;
+  padding: 32px;
+  max-width: 420px;
+  width: 90%;
+  text-align: center;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
+}
+
+.modal-icon {
+  font-size: 48px;
+  margin-bottom: 16px;
+}
+
+.modal-content h2 {
+  font-size: 22px;
+  font-weight: 600;
+  color: #1a1613;
+  margin-bottom: 12px;
+}
+
+.modal-content p {
+  color: #9a918a;
+  font-size: 14px;
+  line-height: 1.6;
+  margin-bottom: 16px;
+}
+
+.modal-tip {
+  background: #faf8f5;
+  border-radius: 8px;
+  padding: 12px 16px;
+  font-size: 13px;
+  color: #666;
+  line-height: 1.6;
+  text-align: left;
+  margin-bottom: 24px;
+}
+
+.modal-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.modal-btn {
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 600;
+  padding: 12px 24px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.modal-btn-primary {
+  background: linear-gradient(135deg, #c8713a, #d4884e);
+  color: white;
+}
+
+.modal-btn-primary:hover {
+  opacity: 0.9;
+  transform: translateY(-1px);
+}
+
+.modal-btn-secondary {
+  background: #f5f1eb;
+  color: #1a1613;
+  border: 1px solid #e8e2da;
+}
+
+.modal-btn-secondary:hover {
+  background: #e8e2da;
+}
+
+.modal-footer {
+  margin-top: 16px;
+  padding-top: 16px;
+  border-top: 1px solid #e8e2da;
+  font-size: 12px;
+  color: #8a8a8a;
+  text-align: center;
+}
+
+/* 弹窗过渡动画 */
+.modal-enter-active,
+.modal-leave-active {
+  transition: opacity 0.3s ease;
+}
+
+.modal-enter-from,
+.modal-leave-to {
+  opacity: 0;
 }
 
 #tab-sweep {
