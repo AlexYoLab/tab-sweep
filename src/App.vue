@@ -3,7 +3,7 @@
     <header>
       <div class="header-left">
         <h1>TabSweep</h1>
-        <span class="tab-count">{{ tabCount }} tabs open</span>
+        <span class="tab-count">已打开{{ tabCount }}个标签页</span>
       </div>
       <ViewToggle v-model="viewMode" />
     </header>
@@ -18,10 +18,10 @@
           </svg>
         </div>
         <span class="cleanup-text">
-          You have <strong>{{ dupeCount }} duplicate tabs</strong>
+          检测到 <strong>{{ dupeCount }} 个重复标签页</strong>
         </span>
       </div>
-      <button class="cleanup-btn" @click="fixAllDupes">Fix all</button>
+      <button class="cleanup-btn" @click="fixAllDupes">一键去重</button>
     </div>
 
     <main>
@@ -79,7 +79,7 @@
 
         <div v-if="Object.keys(groupedTabs).length === 0" class="empty-state">
           <div class="empty-icon">📭</div>
-          <p>No tabs open</p>
+          <p>暂无标签页</p>
         </div>
       </div>
     </main>

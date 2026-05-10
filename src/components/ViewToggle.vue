@@ -10,7 +10,7 @@
         <line x1="1" y1="5" x2="13" y2="5"/>
         <line x1="1" y1="9" x2="13" y2="9"/>
       </svg>
-      All Tabs
+      标签视图
     </button>
     <button
       :class="{ active: modelValue === 'window' }"
@@ -21,7 +21,7 @@
         <line x1="1" y1="4" x2="13" y2="4"/>
         <rect x="3" y="12" width="8" height="1" rx="0.5"/>
       </svg>
-      By Window
+      窗口视图
     </button>
   </div>
 </template>

@@ -5,14 +5,14 @@
       <div class="card-title-row">
         <span class="group-name">{{ group.name }}</span>
         <span class="tab-count-badge">{{ group.tabs.length }}</span>
-        <span v-if="hasDuplicate" class="dupe-indicator" title="Has duplicate tabs">⚠ {{ duplicateCount }}</span>
+        <span v-if="hasDuplicate" class="dupe-indicator" title="存在重复标签页">⚠ {{ duplicateCount }}</span>
       </div>
       <div class="card-actions">
-        <button class="card-action close-all" @click="$emit('close-all')" title="Close all tabs in this group">
-          Close all
+        <button class="card-action close-all" @click="$emit('close-all')" title="关闭全部">
+          全部关闭
         </button>
-        <button v-if="hasDuplicate" class="card-action fix-dupes" @click="$emit('fix-dupes')" title="Close duplicate tabs">
-          Fix dupes
+        <button v-if="hasDuplicate" class="card-action fix-dupes" @click="$emit('fix-dupes')" title="关闭重复标签页">
+          关闭重复标签页
         </button>
       </div>
     </div>

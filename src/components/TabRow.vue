@@ -8,16 +8,16 @@
     <div v-else class="favicon-placeholder"></div>
 
     <div class="row-content">
-      <span class="row-title">{{ tab.title || 'Untitled' }}</span>
+      <span class="row-title">{{ tab.title || '无标题' }}</span>
       <span class="row-url">{{ getDisplayUrl(tab.url) }}</span>
     </div>
 
     <span v-if="tab.isDuplicate" class="dupe-badge" @click.stop="$emit('close-duplicates', tab.duplicateUrl)">
-      ×{{ tab.duplicateCount }}
+      重复 {{ tab.duplicateCount }} ×
     </span>
 
     <div class="row-actions">
-      <button class="row-action save" @click.stop="$emit('save-later')" :title="isSaved ? 'Saved' : 'Save for later'">
+      <button class="row-action save" @click.stop="$emit('save-later')" :title="isSaved ? '已保存' : '保存到稍后阅读'">
         <svg v-if="!isSaved" width="13" height="13" viewBox="0 0 13 13" fill="none" stroke="currentColor" stroke-width="1.3">
           <path d="M2 1a1 1 0 011-1h6a1 1 0 011 1v10l-4-2.5L2 11V1z"/>
         </svg>
@@ -25,7 +25,7 @@
           <path d="M2 1a1 1 0 011-1h6a1 1 0 011 1v10l-4-2.5L2 11V1z"/>
         </svg>
       </button>
-      <button class="row-action close" @click.stop="$emit('close')" title="Close tab">
+      <button class="row-action close" @click.stop="$emit('close')" title="关闭标签页">
         ×
       </button>
     </div>

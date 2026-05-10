@@ -1,7 +1,7 @@
 <template>
   <div class="read-later">
     <!-- 切换按钮 -->
-    <button class="toggle-btn" @click="toggle" :title="isOpen ? 'Close Read Later' : 'Open Read Later'">
+    <button class="toggle-btn" @click="toggle" :title="isOpen ? '关闭稍后阅读' : '打开稍后阅读'">
       <svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.5">
         <path d="M4 2a1 1 0 011-1h8a1 1 0 011 1v14l-5-3-5 3V2z"/>
       </svg>
@@ -19,10 +19,10 @@
             <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5">
               <path d="M3 2a1 1 0 011-1h6a1 1 0 011 1v10l-4-2.5L3 12V2z"/>
             </svg>
-            Read Later
+            稍后阅读
             <span class="count">({{ activeItems.length }})</span>
           </h3>
-          <button class="close-btn" @click="isOpen = false" title="Close">×</button>
+          <button class="close-btn" @click="isOpen = false" title="关闭">×</button>
         </div>
 
         <div class="sidebar-body">
@@ -30,8 +30,8 @@
             <svg width="36" height="36" viewBox="0 0 36 36" fill="none" stroke="#ddd" stroke-width="1.5">
               <path d="M10 6a2 2 0 012-2h12a2 2 0 012 2v24l-8-5-8 5V6z"/>
             </svg>
-            <p>No saved tabs</p>
-            <span>Click the bookmark icon to save tabs for later</span>
+            <p>暂无已保存标签页</p>
+            <span>点击书签保存</span>
           </div>
 
           <div v-for="item in activeItems" :key="item.id" class="read-later-item">
@@ -46,12 +46,12 @@
             </div>
 
             <div class="item-actions">
-              <button @click="archiveItem(item.id)" class="btn-archive" title="Mark as read">
+              <button @click="archiveItem(item.id)" class="btn-archive" title="标记为已读">
                 <svg width="13" height="13" viewBox="0 0 13 13" fill="none" stroke="currentColor" stroke-width="1.3">
                   <path d="M2 1a1 1 0 011-1h6a1 1 0 011 1v9l-4-2.5L2 10V1z"/>
                 </svg>
               </button>
-              <button @click="destroyItem(item.id)" class="btn-destroy" title="Delete">
+              <button @click="destroyItem(item.id)" class="btn-destroy" title="删除">
                 ×
               </button>
             </div>
@@ -60,7 +60,7 @@
           <!-- 已归档区域 -->
           <div v-if="archivedItems.length > 0" class="archived-section">
             <div class="archived-header" @click="showArchived = !showArchived">
-              <span>Archived ({{ archivedItems.length }})</span>
+              <span>已归档 ({{ archivedItems.length }})</span>
               <svg class="chevron" :class="{ expanded: showArchived }" width="12" height="12" viewBox="0 0 12 12" fill="currentColor">
                 <path d="M3 4.5L6 7.5L9 4.5" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round"/>
               </svg>
@@ -80,13 +80,13 @@
                   </div>
 
                   <div class="item-actions">
-                    <button @click="restoreItem(item.id)" class="btn-restore" title="Restore">
+                    <button @click="restoreItem(item.id)" class="btn-restore" title="恢复">
                       <svg width="13" height="13" viewBox="0 0 13 13" fill="none" stroke="currentColor" stroke-width="1.3">
                         <path d="M2 6a4 4 0 108 0 4 4 0 00-4-4"/>
                         <path d="M11 6H7M7 6l2-2M7 6l2 2"/>
                       </svg>
                     </button>
-                    <button @click="destroyItem(item.id)" class="btn-destroy" title="Delete permanently">
+                    <button @click="destroyItem(item.id)" class="btn-destroy" title="永久删除">
                       ×
                     </button>
                   </div>
@@ -98,8 +98,8 @@
 
         <!-- 底部操作栏 -->
         <div v-if="activeItems.length > 0" class="sidebar-footer">
-          <button class="clear-btn" @click="clearAll" title="Clear all archived">
-            Clear archived
+          <button class="clear-btn" @click="clearAll" title="清空所有归档">
+            清空归档
           </button>
         </div>
       </div>
@@ -152,16 +152,16 @@ function formatDate(dateString) {
 
   // 一天内
   if (diff < 86400000) {
-    return 'Today'
+    return '今天'
   }
   // 两天内
   if (diff < 172800000) {
-    return 'Yesterday'
+    return '昨天'
   }
   // 一周内
   if (diff < 604800000) {
     const days = Math.floor(diff / 86400000)
-    return `${days} days ago`
+    return `${days} 天前`
   }
 
   return date.toLocaleDateString()

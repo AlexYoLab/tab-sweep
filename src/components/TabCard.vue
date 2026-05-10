@@ -7,7 +7,7 @@
         <span class="tab-title">{{ truncateTitle }}</span>
         <span class="display-url">{{ displayUrl }}</span>
         <span v-if="tab.isDuplicate" class="duplicate-badge" @click.stop="$emit('close-duplicates', tab.duplicateUrl)">
-          Duplicate ({{ tab.duplicateCount }}) ×
+          重复 ({{ tab.duplicateCount }}) ×
         </span>
       </div>
     </div>
